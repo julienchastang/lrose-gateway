@@ -1,11 +1,10 @@
 #!/bin/bash -f
 
 function usage() {
-  echo -e "Syntax: $(basename "$0") [-h] [-n <name>] [-p <ip>] [-o <openrc>]"
+  echo -e "Syntax: $(basename "$0") [-h] [-n <name>] [-o <openrc>]"
   echo -e "Script to access environment for launching JupyterHub clusters."
   echo -e "  -h, --help            Show this help text"
   echo -e "  -n, --name            JupyterHub name"
-  echo -e "  -p, --ip              JupyterHub IP"
   echo -e "  -o, --openrc          OpenRC file path"
   exit 1
 }
@@ -19,10 +18,6 @@ while [[ $# -gt 0 ]]; do
             ;;
         -n|--name)
             JUPYTERHUB="$2"
-            shift 2
-            ;;
-        -p|--ip)
-            IP="$2"
             shift 2
             ;;
         -o|--openrc)
@@ -76,5 +71,4 @@ docker run -it --name "${JUPYTERHUB}" \
        -v "${SECRETS}:/home/openstack/jupyterhub-deploy-kubernetes-jetstream/secrets.yaml" \
        -e CLUSTER="${JUPYTERHUB}" \
        -e K8S_CLUSTER_NAME="${JUPYTERHUB}" \
-       -e IP="${IP}" \
        nsf-lrose/lrose-gateway /bin/bash
