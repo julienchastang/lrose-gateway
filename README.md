@@ -31,7 +31,6 @@
     - [Launching a Jetstream2 Openstack Magnum Cluster](#h-C18A5351)
       - [Preamble](#h-5EFA4896)
       - [Obtain openrc.sh App Credentials for Magnum Clusters](#h-34D247DF)
-      - [Obtain or Re-use an IP address](#h-B6B2E201)
       - [Launch Cluster Building Environment](#h-FBA11C0F)
       - [Launching the JupyterHub](#h-C9998D99)
         - [AZ Blog](#h-A9D2E815)
@@ -565,37 +564,20 @@ Once you have defined your cluster, you are ready to launch the OpenStack Magnum
 In order to launch OpenStack Magnum clusters, we need to work with a slightly different `openrc.sh` file that gives us sufficient permissions to launch Magnum clusters. Obtain this second `openrc.sh` file via the [Access Credentials](https://docs.jetstream-cloud.org/ui/cli/auth/#about-openrcsh-files) interface creating a new "Unrestricted (dangerous)" Application Credential via the Horizon interface, under Identity → Application Credentials. Let's call this second application credential `openrc-magnum.sh`.
 
 
-<a id="h-B6B2E201"></a>
-
-#### Obtain or Re-use an IP address
-
-To begin, you will need to obtain or reuse a public IP address from Jetstream2. To do this, access the OpenStack container, as previously discussed. Once inside, you can list the available IP addresses to determine if there are any that can be allocated for the new LROSE cluster.
-
-```sh
-openstack floating ip list # aliased with ofl
-```
-
-If one is available indicated by `None`, make a note of it. If none are available, you can create a new one with:
-
-```sh
-openstack floating ip create public
-```
-
-
 <a id="h-FBA11C0F"></a>
 
 #### Launch Cluster Building Environment
 
-Once you have an available IP address, launch the cluster building environment using the command below located in `lrose-gateway/openstack`. Select the `name` carefully, as this will be the name of the cluster, including what will be facing the internet.
+Launch the cluster building environment using the command below located in `lrose-gateway/openstack`. Select the `name` carefully, as this will be the name of the cluster, including what will be facing the internet.
 
 ```sh
-bash cluster_launcher.sh [-n <name>] [-p <ip>] [-o <openrc>]
+bash cluster_launcher.sh [-n <name>] [-o <openrc>]
 ```
 
 For example,
 
 ```
-$ bash cluster_launcher.sh -n lrose-test314 -p 149.165.154.1 -o ~/openrc-magnum.sh
+$ bash cluster_launcher.sh -n lrose-test314 -o ~/openrc-magnum.sh
 Created base directory: /home/rocky/lrose-gateway/openstack/jhubs/lrose-test314
 ❯ (lrose-test314) ~ ➜
 ```
