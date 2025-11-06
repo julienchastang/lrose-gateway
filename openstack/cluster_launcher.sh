@@ -32,8 +32,8 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Check mandatory arguments
-if [[ -z "$JUPYTERHUB" || -z "$IP" || -z "$OPENRC" ]]; then
-    echo "Error: Must supply JupyterHub name, IP, and OpenRC path."
+if [[ -z "$JUPYTERHUB" ||  -z "$OPENRC" ]]; then
+    echo "Error: Must supply JupyterHub name,  and OpenRC path."
     usage
 fi
 
