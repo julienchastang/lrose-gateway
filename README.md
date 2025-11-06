@@ -35,8 +35,8 @@
       - [Launching the JupyterHub](#h-C9998D99)
         - [AZ Blog](#h-A9D2E815)
         - [Create Cluster](#h-53E51B30)
-        - [Create Nodegroups](#h-C015C06D)
         - [Fetch the kubectl Config File](#h-8D33F4A1)
+        - [Create Nodegroups](#h-C015C06D)
         - [Install an Ingress Resource](#h-C1F2893B)
         - [Link Domain Name to IP Address](#h-D357B1B9)
         - [Get a Certificate from LetsEncrypt](#h-7CE99CA4)
@@ -636,6 +636,22 @@ Cluster creation took 9 minutes.
 Sometimes this fails with the cluster stuck in `CREATE_IN_PROGRESS` indefinitely. If this happens `delete_cluster.sh` and try again.
 
 
+<a id="h-8D33F4A1"></a>
+
+##### Fetch the kubectl Config File
+
+Once the cluster has been successfully created, we must fetch the `config` file that allows us to interact with the cluster via `kubectl`. Run the following commands:
+
+```sh
+openstack coe cluster config $CLUSTER --force
+chmod 600 config
+mkdir -p ~/.kube/
+mv config ~/.kube/config
+```
+
+You should now be able to run `kubectl` commands, such as `kubectl get nodes`.
+
+
 <a id="h-C015C06D"></a>
 
 ##### Create Nodegroups
@@ -654,22 +670,6 @@ openstack coe nodegroup create $CLUSTER mediums \
 If desired, you can make the `--min-nodes` argument a number higher than `1`. This means the cluster will have more idling resources, but has the potential for a faster user experience, as they will be able to immediately access the resources without triggering the auto-scaler.
 
 After a short amount of time, you should see the new node(s) in the output of a `kubectl get nodes`.
-
-
-<a id="h-8D33F4A1"></a>
-
-##### Fetch the kubectl Config File
-
-Once the cluster has been successfully created, we must fetch the `config` file that allows us to interact with the cluster via `kubectl`. Run the following commands:
-
-```sh
-openstack coe cluster config $CLUSTER --force
-chmod 600 config
-mkdir -p ~/.kube/
-mv config ~/.kube/config
-```
-
-You should now be able to run `kubectl` commands, such as `kubectl get nodes`.
 
 
 <a id="h-C1F2893B"></a>
